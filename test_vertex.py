@@ -1,4 +1,6 @@
 from vertex_handler import generate_image
 
-prompt = "A futuristic AI classroom with holograms and a robot teacher"
+print("Hangi ürünün geri dönüşümü?")
+urun=input("Seciminiz:")
+prompt = f"{urun}'in geri dönüşüm yolculuğu"
 print(generate_image(prompt))

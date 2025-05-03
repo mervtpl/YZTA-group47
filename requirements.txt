@@ -1,2 +1,3 @@
 google-cloud-aiplatform
 python-dotenv
+google-generativeai
