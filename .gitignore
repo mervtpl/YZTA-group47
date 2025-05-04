@@ -3,3 +3,4 @@ vertex-key.json
 __pycache__/
 *.pyc
 gen-lang-client-0671714367-3a2754057431.json
+genai-key.json
