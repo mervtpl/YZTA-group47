@@ -32,7 +32,7 @@ def generate_image(prompt: str, output_path="output.png") -> str:
 
     # Prompt'u İngilizce'ye çevir
     prompt_en = translate_prompt_to_english(prompt)
-    print("Çevrilen prompt:", prompt_en)
+
 
     # Görsel üretimi
     model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-002")
