@@ -1,14 +1,21 @@
 from google import genai
-from dotenv import load_dotenv
+from dotenv import load_dotenv 
 import os
+import json
 
-# .env dosyasını yükle
+
 load_dotenv()
 
-# Ortam değişkeninden API anahtarını al
-api_key = os.getenv("GENAI_API_KEY")
 
-# Google Generative AI istemcisini başlat
+key_file_path = os.getenv("GENAI_CREDENTIALS")
+
+
+with open(key_file_path) as f:
+    config = json.load(f)
+
+api_key = config["GENAI_API_KEY"]
+
+
 client = genai.Client(api_key=api_key)
 
 print("Hangi geri dönüşüm nesnesi ile ilgili hikaye yazılacak?:")
