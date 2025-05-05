@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 import vertexai
 from vertexai.preview.vision_models import ImageGenerationModel
@@ -7,9 +8,13 @@ import google.generativeai as genai
 # Ortam değişkenlerini yükle
 load_dotenv()
 
-# Gemini API anahtarını yükle
-genai.configure(api_key="AIzaSyAmRwflPB5WVKmSKYaj7ZBZ_7o1wCE3h1M")
+# Gemini API anahtarını JSON dosyasından al
+key_file_path = os.getenv("GENAI_CREDENTIALS")
+with open(key_file_path) as f:
+    config = json.load(f)
 
+api_key = config["GENAI_API_KEY"]
+genai.configure(api_key=api_key)
 
 def translate_prompt_to_english(turkish_prompt: str) -> str:
     model = genai.GenerativeModel("gemini-2.0-flash")
@@ -20,7 +25,6 @@ def translate_prompt_to_english(turkish_prompt: str) -> str:
         return "An object being recycled into something new."
 
     return response.text.strip()
-
 
 def generate_image(prompt: str, output_path="output.png") -> str:
     project_id = os.getenv("PROJECT_ID")
