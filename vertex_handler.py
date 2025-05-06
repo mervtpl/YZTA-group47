@@ -26,6 +26,19 @@ def translate_prompt_to_english(turkish_prompt: str) -> str:
 
     return response.text.strip()
 
+
+def extract_visual_description(turkish_story: str) -> str:
+    model = genai.GenerativeModel("gemini-2.0-flash")
+    prompt = (
+        f"Aşağıdaki hikayeyi oku ve sadece görselle ilgili olan betimleyici cümleleri ayır:\n\n"
+        f"{turkish_story}\n\n"
+        f"Sadece görselle ilgili kısmı kısa bir paragraf olarak yaz. Yazı, metin, yazılı içerik gibi öğeleri dahil etme."
+    )
+    response = model.generate_content(prompt)
+    return response.text.strip() if response.text else turkish_story
+
+
+
 def generate_image(prompt: str, output_path="output.png") -> str:
     project_id = os.getenv("PROJECT_ID")
     location = "us-central1"
@@ -34,9 +47,9 @@ def generate_image(prompt: str, output_path="output.png") -> str:
     # Vertex AI'ı başlat
     vertexai.init(project=project_id, location=location)
 
-    # Prompt'u İngilizce'ye çevir
-    prompt_en = translate_prompt_to_english(prompt)
-
+    visual_desc = extract_visual_description(prompt)
+    prompt_en = translate_prompt_to_english(visual_desc)
+    prompt_en += " No text, no letters, no writing, only visual description."
 
     # Görsel üretimi
     model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-002")
