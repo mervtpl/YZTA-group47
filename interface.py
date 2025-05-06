@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk  # Pillow kütüphanesi gerekiyor: pip install pillow
 import os
-
 import gemini_handler
 
 root = tk.Tk()
@@ -52,7 +51,14 @@ story_box = tk.Text(root, wrap="word", width=90, height=12, bg="#fffde7",
                     fg="#333", font=("Comic Sans MS", 11))
 story_box.pack(pady=10)
 
-
+def kaydet_pdf_ile():
+    from controller import kaydet_pdf
+    story_text = story_box.get("1.0", "end").strip()
+    sonuc=kaydet_pdf(story_text)
+    if sonuc:
+        messagebox.showinfo("Başarılı", "PDF başarıyla kaydedildi!")
+    else:
+        messagebox.showerror("Hata", "PDF kaydedilemedi. Lütfen metin ve görselin mevcut olduğundan emin olun.")
 
 
 def olustur():
@@ -91,7 +97,7 @@ btn_frame = tk.Frame(root, bg="#f0f9ff")
 btn_frame.pack(pady=10)
 
 ttk.Button(btn_frame, text="Hikaye Oluştur", command=olustur).grid(row=0, column=0, padx=10)
-ttk.Button(btn_frame, text="Kaydet (PDF)", ).grid(row=0, column=1, padx=10)
+ttk.Button(btn_frame, text="Kaydet (PDF)",command=kaydet_pdf_ile).grid(row=0, column=1, padx=10)
 
 generating_image_label = tk.Label(root, bg="#f0f9ff")
 generating_image_label.pack(pady=10)
